@@ -1,0 +1,59 @@
+# GraFT — Graph-based Filament Tracing
+#
+# Reproducible conda/mamba environment.
+#
+# Named environment-conda.yml (not environment.yml) on purpose: the hosted
+# Streamlit demo would otherwise auto-detect environment.yml and build via a
+# slow conda solve. The cloud demo uses requirements.txt (pip) instead; this
+# file is for local conda/mamba use.
+#
+# Create with:
+#     mamba env create -f environment-conda.yml
+#     mamba activate graft_project
+#
+# Update an existing env with:
+#     mamba env update -f environment-conda.yml --prune
+
+name: graft_project
+
+channels:
+  - conda-forge
+
+dependencies:
+  # --- Python ---------------------------------------------------------------
+  - python=3.11
+
+  # --- Core scientific stack ------------------------------------------------
+  - numpy
+  - scipy
+  - pandas
+
+  # --- Image processing / graph ---------------------------------------------
+  - scikit-image
+  - networkx
+
+  # --- Plotting -------------------------------------------------------------
+  - matplotlib
+  - seaborn             # heatmaps (sweep evaluation)
+
+  # --- Specialised libraries used by GraFT ----------------------------------
+  - simplification      # Visvalingam–Whyatt line simplification
+
+  # --- I/O ------------------------------------------------------------------
+  # NOT imported directly, but REQUIRED at runtime: pandas needs openpyxl as the
+  # engine for df.to_excel("evaluation_metrics.xlsx"). Removing it breaks the
+  # evaluation step with "No module named 'openpyxl'".
+  - openpyxl
+
+  # --- Interactive GUI (gui_app.py) -----------------------------------------
+  # Streamlit front-end over the same pipeline. Not needed for the CLI, but
+  # included so the local conda env can run the GUI too.
+  - streamlit
+
+  # --- Optional (future-work module only) -----------------------------------
+  # Needed ONLY for extras/orientation_analysis.py (filament orientation /
+  # circular statistics); the tracing pipeline does not import these. Uncomment
+  # to enable that module:
+  #   - astropy         # circular statistics (circmean / circvar)
+  #   - plotly          # polar bar plot
+  #   - python-kaleido  # plotly static image export (fig.write_image)

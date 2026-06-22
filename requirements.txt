@@ -1,0 +1,26 @@
+# GraFT — pip fallback dependency list.
+#
+# Prefer environment-conda.yml + conda/mamba (binary-compatible builds for the
+# C / Rust extensions in scikit-image, scipy, simplification).
+#
+# pip install -r requirements.txt
+
+numpy
+scipy
+pandas
+scikit-image
+networkx
+matplotlib
+seaborn
+simplification
+openpyxl          # runtime-only: pandas to_excel() engine for .xlsx output
+streamlit         # Interactive GUI (gui_app.py); also required by the hosted demo
+
+# --- Optional ---------------------------------------------------------------
+#
+# Future-work module extras/orientation_analysis.py (filament orientation /
+# circular statistics). NOT required by the tracing pipeline. Install with:
+#   pip install astropy plotly kaleido
+# astropy
+# plotly
+# kaleido           # plotly static image export (fig.write_image)
